@@ -75,7 +75,7 @@ export default function MenuBar() {
                             </ListItemText>
                         </MenuItem>
                     </Link>
-                    <a href="/resume.pdf" target="_blank" className="menu-link">
+                    <a href="/Resume.pdf" target="_blank" className="menu-link">
                         <MenuItem>
                             <ListItemText>
                                     Resume
