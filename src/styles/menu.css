@@ -7,3 +7,7 @@
     width: 30px !important;
     height: 30px !important;
 }
+
+.menu-link-selected {
+    text-decoration: underline !important;
+}

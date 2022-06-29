@@ -1,6 +1,6 @@
 import React from 'react';
-import {Link} from "react-router-dom";
 import {SocialIcon} from "react-social-icons";
+import {Link, useLocation} from "react-router-dom";
 import {LightMode, OpenInNew} from '@mui/icons-material'
 import {
     Avatar, Box,
@@ -19,6 +19,13 @@ import profilePicture from '../assets/default-profile.png';
 import '../styles/menu.css';
 
 export default function MenuBar() {
+    const location = useLocation();
+
+    const selected = {
+        blog: location.pathname.includes("/blog"),
+        about: location.pathname.includes("/about") || location.pathname == '/',
+    };
+
     return (
         <Grid container spacing={ 3 } sx={{
             padding: 2,
@@ -61,14 +68,14 @@ export default function MenuBar() {
             </Grid>
             <Grid item xs={ 12 }>
                 <MenuList>
-                    <Link to="/blog" className="menu-link">
+                    <Link to="/blog" className={ `menu-link ${ selected.blog ? 'menu-link-selected' : '' }` }>
                         <MenuItem>
                             <ListItemText>
                                     Blog
                             </ListItemText>
                         </MenuItem>
                     </Link>
-                    <Link to="/about" className="menu-link">
+                    <Link to="/about" className={ `menu-link ${ selected.about ? 'menu-link-selected' : '' }` }>
                         <MenuItem>
                             <ListItemText>
                                     About
