@@ -9,8 +9,6 @@ export default function AboutPage() {
 
     return (
         <Grid container spacing={ 3 } sx={{
-            paddingX: 5,
-            paddingY: 2,
         }}>
             <Grid item xs={ 12 }>
                 <Typography variant="h4">

@@ -10,6 +10,7 @@ import BlogListPage from "./blog/list-page";
 export default function App() {
     const windowWidth = useWindowWidth();
     const [ width, setWidth ] = useState(0);
+    const [ padding, setPadding ] = useState(true);
 
     useEffect(() => {
         if(windowWidth >= 1000) {
@@ -19,19 +20,28 @@ export default function App() {
         } else {
             setWidth(windowWidth - 40);
         }
+        if(windowWidth <= 500) {
+            setPadding(false);
+        } else {
+            setPadding(true);
+        }
     }, [ windowWidth ]);
     return (
         <Grid container sx={{
-            marginY: '30px',
+            marginY: '50px',
             marginX: 'auto',
             width: width,
         }}>
-            <Grid item sm={ 4 } xs={ 12 }>
+            <Grid item sm={ 4 } xs={ 12 } sx={{
+                paddingX: padding ? 2 : 1,
+                paddingY: 3,
+            }}>
                 <MenuBar />
             </Grid>
             <Divider orientation="vertical" flexItem style={{marginRight:"-1px"}} />
             <Grid item sm={ 8 } xs={ 12 } sx={{
-                paddingLeft: '1px',
+                paddingX: padding ? 5 : 1,
+                paddingY: 3,
             }}>
                 <Routes>
                     <Route

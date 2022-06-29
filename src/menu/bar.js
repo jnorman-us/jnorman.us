@@ -27,9 +27,7 @@ export default function MenuBar() {
     };
 
     return (
-        <Grid container spacing={ 3 } sx={{
-            padding: 2,
-        }}>
+        <Grid container spacing={ 3 }>
             <Grid item xs={ 12 }>
                 <Link to="/">
                     <Avatar src={ profilePicture } sx={{
