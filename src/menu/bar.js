@@ -31,19 +31,23 @@ export default function MenuBar() {
             padding: 2,
         }}>
             <Grid item xs={ 12 }>
-                <Avatar src={ profilePicture } sx={{
-                    width: '85px',
-                    height: '85px',
-                }}/>
+                <Link to="/">
+                    <Avatar src={ profilePicture } sx={{
+                        width: '85px',
+                        height: '85px',
+                    }}/>
+                </Link>
             </Grid>
             <Grid item xs={ 12 }>
                 <Grid container spacing={ 0 }>
                     <Grid item xs={ 10 }>
-                        <Typography variant="h5" sx={{
-                            fontWeight: '800'
-                        }}>
-                            Joseph Norman
-                        </Typography>
+                        <Link to="/" className="menu-link">
+                            <Typography variant="h5" sx={{
+                                fontWeight: '800'
+                            }}>
+                                Joseph Norman
+                            </Typography>
+                        </Link>
                     </Grid>
                     <Grid item sx={{
                         alignSelf: 'center',

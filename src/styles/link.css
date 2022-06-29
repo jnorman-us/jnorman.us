@@ -1,0 +1,10 @@
+.out-link {
+    font-weight: bold;
+    color: black;
+    text-decoration: underline 0.15em rgba(0, 0, 0, 0);
+    transition: text-decoration-color 300ms;
+}
+
+.out-link:hover {
+    text-decoration: underline 0.15em rgba(0, 0, 0, 1);
+}
