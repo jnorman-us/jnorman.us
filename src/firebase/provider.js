@@ -4,7 +4,7 @@ import {getFirestore, collection, getDocs} from 'firebase/firestore';
 
 import FIREBASE_CONFIG from "./config";
 import FirebaseContext from "./context";
-import {getAllPosts, getPostByID} from "./posts";
+import {createPost, getAllPosts, getPostByID, iterateReads} from "./posts";
 
 export default function FirebaseProvider({
     children,
@@ -27,6 +27,8 @@ export default function FirebaseProvider({
             firebaseReady: ready,
             getAllPosts: getAllPosts.bind(db),
             getPostByID: getPostByID.bind(db),
+            iterateReads: iterateReads.bind(db),
+            createPost: createPost.bind(db),
         }}>
             { children }
         </FirebaseContext.Provider>

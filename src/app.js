@@ -6,6 +6,8 @@ import {useWindowWidth} from "@react-hook/window-size";
 import MenuBar from "./menu/bar";
 import AboutPage from "./about/page";
 import BlogListPage from "./blog/list-page";
+import BlogReadPage from "./blog/read";
+import WritePage from "./write/page";
 
 export default function App() {
     const windowWidth = useWindowWidth();
@@ -33,20 +35,20 @@ export default function App() {
             width: width,
         }}>
             <Grid item sm={ 4 } xs={ 12 } sx={{
-                paddingX: padding ? 2 : 1,
+                paddingX: padding ? 3 : 1,
                 paddingY: 3,
             }}>
                 <MenuBar />
             </Grid>
             <Divider orientation="vertical" flexItem style={{marginRight:"-1px"}} />
             <Grid item sm={ 8 } xs={ 12 } sx={{
-                paddingX: padding ? 5 : 1,
+                paddingX: padding ? 6 : 1,
                 paddingY: 3,
             }}>
                 <Routes>
                     <Route
                         path="/"
-                        element={ <AboutPage /> }
+                        element={ <BlogListPage /> }
                     />
                     <Route
                         path="/about"
@@ -55,6 +57,14 @@ export default function App() {
                     <Route
                         path="/blog"
                         element={ <BlogListPage /> }
+                    />
+                    <Route
+                        path="/blog/:id"
+                        element={ <BlogReadPage /> }
+                    />
+                    <Route
+                        path="/write"
+                        element={ <WritePage /> }
                     />
                 </Routes>
             </Grid>

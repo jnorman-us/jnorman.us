@@ -8,8 +8,7 @@ export default function AboutPage() {
     }, []);
 
     return (
-        <Grid container spacing={ 3 } sx={{
-        }}>
+        <Grid container spacing={ 3 }>
             <Grid item xs={ 12 }>
                 <Typography variant="h4">
                     About Me

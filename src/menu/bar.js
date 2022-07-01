@@ -22,8 +22,8 @@ export default function MenuBar() {
     const location = useLocation();
 
     const selected = {
-        blog: location.pathname.includes("/blog"),
-        about: location.pathname.includes("/about") || location.pathname == '/',
+        blog: location.pathname.includes("/blog") || location.pathname == '/',
+        about: location.pathname.includes("/about"),
     };
 
     return (
