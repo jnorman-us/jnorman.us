@@ -6,9 +6,11 @@ import {Box, Grid, Skeleton, Typography} from "@mui/material";
 
 import FirebaseContext from "../firebase/context";
 
+import '../styles/font.css';
+
 export default function BlogReadPage() {
     const { id } = useParams();
-    const { firebaseReady, getPostByID, iterateReads } = useContext(FirebaseContext);
+    const { firebaseReady, getPostByID } = useContext(FirebaseContext);
 
     const [ post, setPost ] = useState(null);
 
@@ -30,13 +32,6 @@ export default function BlogReadPage() {
     useEffect(() => {
         if(post != null) {
             document.title = `${ post.title } - jnorman.us`;
-
-            let cancel = false;
-            setTimeout(() => {
-                if(cancel) return;
-                iterateReads(id);
-            }, 2500);
-            return () => cancel = true;
         }
     }, [post]);
 
@@ -44,7 +39,7 @@ export default function BlogReadPage() {
 
     const title = (ready ?
         <Typography variant="h4" sx={{
-            fontSize: '28px',
+            fontSize: '32px',
             fontWeight: '500',
         }}>
             { post.title }
@@ -71,6 +66,7 @@ export default function BlogReadPage() {
     const contents = (ready ?
         <ReactMarkdown
             rehypePlugins={[ rehypeHighlight ]}
+            className="font"
         >
             { post.contents }
         </ReactMarkdown> :
@@ -94,6 +90,7 @@ export default function BlogReadPage() {
                 { time_published }
             </Grid>
             <Grid item xs={ 12 } sx={{
+                marginTop: 2,
             }}>
                 { contents }
             </Grid>
