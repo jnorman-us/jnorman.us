@@ -1,25 +1,32 @@
 package main
 
 import (
-	"os"
+	"github.com/gorilla/mux"
+	"jnorman.us/posts"
 	"log"
 	"net/http"
-  	"github.com/gorilla/mux"
+	"os"
 )
 
 func main() {
 	port := os.Getenv("PORT")
+	postsPath := os.Getenv("POSTS_PATH")
+
+	postsManager, postsErr := posts.NewManager(postsPath)
+	if postsErr != nil {
+		log.Fatal(postsErr)
+	}
+	go postsManager.Reload()
 
 	r := mux.NewRouter()
 	r.PathPrefix("/blog").HandlerFunc(handleReact)
 	r.PathPrefix("/blog/{name}").HandlerFunc(handleReact)
 	r.PathPrefix("/about").HandlerFunc(handleReact)
-	r.PathPrefix("/write").HandlerFunc(handleReact)
 
 	r.PathPrefix("/").HandlerFunc(handleFrontend)
 
 	log.Printf("Running Server on port: %s\n", port)
-	err := http.ListenAndServe(":" + port, r)
+	err := http.ListenAndServe(":"+port, r)
 	if err != nil {
 		log.Fatal(err)
 	}

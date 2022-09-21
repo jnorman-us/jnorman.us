@@ -35,7 +35,8 @@
             work correctly both with client-side routing and a non-root public URL.
             Learn how to configure a non-root public URL by running `npm run build`.
         -->
-        <title>Joseph Norman's Blog</title>
+        <title>{{ .Title }}</title>
+        <script id="data" type="text/json">{{ .JSON }}</script>
     </head>
     <body>
         <!-- Google Tag Manager (noscript) -->
