@@ -7,6 +7,7 @@ import {Box, Grid, Skeleton, Typography} from "@mui/material";
 import FirebaseContext from "../firebase/context";
 
 import '../styles/font.css';
+import {Helmet} from "react-helmet";
 
 export default function BlogReadPage() {
     const { id } = useParams();
@@ -28,12 +29,6 @@ export default function BlogReadPage() {
             return () => cancel = true;
         }
     }, [id, firebaseReady]);
-
-    useEffect(() => {
-        if(post != null) {
-            document.title = `${ post.title } - jnorman.us`;
-        }
-    }, [post]);
 
     const ready = post != null;
 
@@ -79,21 +74,27 @@ export default function BlogReadPage() {
     );
 
     return (
-        <Grid container spacing={ 1 }>
-            <Grid item xs={ 12 }>
-                { title }
+        <>
+            <Helmet>
+                <title>{ `${ready ? post.title : "Blog" } - jnorman.us` }</title>
+                <meta name="description" content={ ready ? post.summary : "" } />
+            </Helmet>
+            <Grid container spacing={ 1 }>
+                <Grid item xs={ 12 }>
+                    { title }
+                </Grid>
+                <Grid item xs={ 12 }>
+                    { subtitle }
+                </Grid>
+                <Grid item xs={ 12 }>
+                    { time_published }
+                </Grid>
+                <Grid item xs={ 12 } sx={{
+                    marginTop: 2,
+                }}>
+                    { contents }
+                </Grid>
             </Grid>
-            <Grid item xs={ 12 }>
-                { subtitle }
-            </Grid>
-            <Grid item xs={ 12 }>
-                { time_published }
-            </Grid>
-            <Grid item xs={ 12 } sx={{
-                marginTop: 2,
-            }}>
-                { contents }
-            </Grid>
-        </Grid>
+        </>
     );
 }
