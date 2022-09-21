@@ -8,6 +8,7 @@ import FirebaseContext from "../firebase/context";
 
 import '../styles/font.css';
 import {Helmet} from "react-helmet";
+import SEO from "../seo/seo";
 
 export default function BlogReadPage() {
     const { id } = useParams();
@@ -75,10 +76,10 @@ export default function BlogReadPage() {
 
     return (
         <>
-            <Helmet>
-                <title>{ `${ready ? post.title : "Blog" } - jnorman.us` }</title>
-                <meta name="description" content={ ready ? post.summary : "" } />
-            </Helmet>
+            <SEO
+                title={ `${ready ? post.title : "Blog" } - jnorman.us` }
+                description={ ready ? post.summary : "" }
+            />
             <Grid container spacing={ 1 }>
                 <Grid item xs={ 12 }>
                     { title }

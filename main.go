@@ -1,10 +1,10 @@
 package main
 
 import (
-	"os"
+	"github.com/gorilla/mux"
 	"log"
 	"net/http"
-  	"github.com/gorilla/mux"
+	"os"
 )
 
 func main() {
@@ -19,7 +19,7 @@ func main() {
 	r.PathPrefix("/").HandlerFunc(handleFrontend)
 
 	log.Printf("Running Server on port: %s\n", port)
-	err := http.ListenAndServe(":" + port, r)
+	err := http.ListenAndServe(":"+port, r)
 	if err != nil {
 		log.Fatal(err)
 	}

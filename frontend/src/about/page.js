@@ -2,14 +2,15 @@ import React, {useEffect} from 'react';
 import {Grid, Typography} from "@mui/material";
 import OutLink from "../util/out-link";
 import {Helmet} from "react-helmet";
+import SEO from "../seo/seo";
 
 export default function AboutPage() {
     return (
         <>
-            <Helmet>
-                <title>{ `About - jnorman.us` }</title>
-                <meta name="description" content="A brief About Me page for me to summarize how I got into Software Engineering" />
-            </Helmet>
+            <SEO
+                title={ `About - jnorman.us` }
+                description={ "A brief About Me page for me to summarize how I got into Software Engineering" }
+            />
             <Grid container spacing={ 3 }>
                 <Grid item xs={ 12 }>
                     <Typography variant="h4">
