@@ -20,7 +20,7 @@ func main() {
 
 	r := mux.NewRouter()
 	r.PathPrefix("/blog").HandlerFunc(handleReact)
-	r.PathPrefix("/blog/{name}").HandlerFunc(handleReact)
+	r.PathPrefix("/blog/{name}").HandlerFunc(postsManager.ServeBlogPost)
 	r.PathPrefix("/about").HandlerFunc(handleReact)
 
 	r.PathPrefix("/").HandlerFunc(handleFrontend)

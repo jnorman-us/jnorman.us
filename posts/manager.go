@@ -2,6 +2,8 @@ package posts
 
 import (
 	"fmt"
+	"github.com/gorilla/mux"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -29,7 +31,25 @@ func (m *Manager) ServeBlogList(w http.ResponseWriter, r *http.Request) {
 }
 
 func (m *Manager) ServeBlogPost(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	name := params["name"]
+	post, ok := m.posts[name]
 
+	if !ok {
+		http.Error(w, "Blog post not found", http.StatusNotFound)
+		return
+	}
+
+	indexPath := "./frontend/build/index.html"
+	index, err := template.ParseFiles(indexPath)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if err := index.Execute(w, post); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
 
 const ReloadInterval = time.Minute * 10
