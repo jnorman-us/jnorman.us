@@ -4,36 +4,15 @@ import rehypeHighlight from 'rehype-highlight'
 import {useEffect, useState, useContext} from "react";
 import {Box, Grid, Skeleton, Typography} from "@mui/material";
 
-import FirebaseContext from "../firebase/context";
-
 import '../styles/font.css';
 
 export default function BlogReadPage() {
-    const { id } = useParams();
-    const { firebaseReady, getPostByID } = useContext(FirebaseContext);
-
     const [ post, setPost ] = useState(null);
 
     useEffect(() => {
-        if(firebaseReady && id != null) {
-            let cancel = false;
-            getPostByID(id).then((result) => {
-                setTimeout(() => {
-                    if(cancel) return;
-                    if(result.exists()) {
-                        setPost(result.data());
-                    }
-                }, 200);
-            });
-            return () => cancel = true;
-        }
-    }, [id, firebaseReady]);
-
-    useEffect(() => {
-        if(post != null) {
-            document.title = `${ post.title } - jnorman.us`;
-        }
-    }, [post]);
+        const post = JSON.parse(document.getElementById("json-data").innerText);
+        setPost(post);
+    }, []);
 
     const ready = post != null;
 
@@ -54,7 +33,7 @@ export default function BlogReadPage() {
         </Typography> :
         <Skeleton variant="text" />
     );
-    const date = ready ? new Date(post.time_published.seconds * 1000) : null;
+    const date = ready ? new Date(post.time_published * 1000) : null;
     const time_published = (ready ?
         <Typography variant="button" sx={{
             color: '#666',

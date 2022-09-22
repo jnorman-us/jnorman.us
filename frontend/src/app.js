@@ -7,7 +7,6 @@ import MenuBar from "./menu/bar";
 import AboutPage from "./about/page";
 import BlogListPage from "./blog/list-page";
 import BlogReadPage from "./blog/read";
-import WritePage from "./write/page";
 
 export default function App() {
     const windowWidth = useWindowWidth();
@@ -61,10 +60,6 @@ export default function App() {
                     <Route
                         path="/blog/:id"
                         element={ <BlogReadPage /> }
-                    />
-                    <Route
-                        path="/write"
-                        element={ <WritePage /> }
                     />
                 </Routes>
             </Grid>

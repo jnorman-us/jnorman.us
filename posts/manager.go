@@ -2,11 +2,9 @@ package posts
 
 import (
 	"fmt"
-	"github.com/gorilla/mux"
-	"html/template"
 	"log"
-	"net/http"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -24,32 +22,6 @@ func NewManager(folderPath string) (*Manager, error) {
 		manager.posts = posts
 	}
 	return manager, nil
-}
-
-func (m *Manager) ServeBlogList(w http.ResponseWriter, r *http.Request) {
-
-}
-
-func (m *Manager) ServeBlogPost(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	name := params["name"]
-	post, ok := m.posts[name]
-
-	if !ok {
-		http.Error(w, "Blog post not found", http.StatusNotFound)
-		return
-	}
-
-	indexPath := "./frontend/build/index.html"
-	index, err := template.ParseFiles(indexPath)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	if err := index.Execute(w, post); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
 }
 
 const ReloadInterval = time.Minute * 10
@@ -71,9 +43,14 @@ func loadDirectory(folderPath string) (map[string]*Post, error) {
 	}
 	for _, file := range files {
 		name := file.Name()
+		split := strings.Split(name, ".")
+		if len(split) < 2 {
+			continue
+		}
+		id := split[0]
 		fullPath := fmt.Sprintf("%s/%s", folderPath, name)
-		if post, err := loadFromFile(fullPath); err == nil {
-			posts[name] = post
+		if post, err := loadFromFile(id, fullPath); err == nil {
+			posts[id] = post
 		} else {
 			log.Printf("Error loading %s: %v\n", fullPath, err)
 		}

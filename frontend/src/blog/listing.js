@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from "react-router-dom";
 import {Button, Grid, Skeleton, Typography} from "@mui/material";
 
 import '../styles/link.css';
@@ -16,13 +15,13 @@ export default function BlogListing({
             fontSize: '28px',
             fontWeight: '500',
         }}>
-            <Link to={ url } className="out-link">
+            <a href={ url } className="out-link">
                 { post.title }
-            </Link>
+            </a>
         </Typography> :
         <Skeleton variant="text" />
     );
-    const date = !empty ? new Date(post.time_published.seconds * 1000) : null;
+    const date = !empty ? new Date(post.time_published * 1000) : null;
     const time_published = (!empty ?
         <Typography variant="button" sx={{
             color: '#666',
@@ -41,11 +40,11 @@ export default function BlogListing({
     );
 
     const button = (!empty ?
-            <Link to={ url } className="out-link out-link-blue">
-                <Typography>
-                    Read
-                </Typography>
-            </Link> :
+        <a href={ url } className="out-link out-link-blue">
+            <Typography>
+                Read
+            </Typography>
+        </a> :
         <Skeleton variant="text" width="100px" />
     );
 

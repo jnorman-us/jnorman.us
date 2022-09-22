@@ -2,8 +2,11 @@ package posts
 
 import (
 	"bufio"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"html/template"
+	"jnorman.us/util"
 	"os"
 	"strconv"
 	"strings"
@@ -11,24 +14,26 @@ import (
 )
 
 type Post struct {
-	time.Time
-	Title       string
-	Description string
-	Contents    string
+	ID          string `json:"id"`
+	Time        int    `json:"time_published"`
+	Title       string `json:"title"`
+	Description string `json:"summary"`
+	Contents    string `json:"contents"`
 }
 
-func loadFromFile(path string) (*Post, error) {
+func loadFromFile(id string, path string) (*Post, error) {
 	postFile, err := os.Open(path)
 	if err != nil {
 		return nil, err
 	}
-	defer postFile.Close()
 
 	scanner := bufio.NewScanner(postFile)
 	scanner.Split(bufio.ScanLines)
 
 	i := 0
-	loadedPost := &Post{}
+	loadedPost := &Post{
+		ID: id,
+	}
 	contentSB := strings.Builder{}
 	for i = 0; scanner.Scan(); i++ {
 		line := scanner.Text()
@@ -41,7 +46,7 @@ func loadFromFile(path string) (*Post, error) {
 			if err != nil {
 				return nil, err
 			}
-			loadedPost.Time = time.Unix(int64(epochTime), 0)
+			loadedPost.Time = epochTime
 		} else {
 			contentSB.WriteString(fmt.Sprintf("%s\n", line))
 		}
@@ -58,9 +63,23 @@ func (p *Post) String() string {
 	sb.WriteString(fmt.Sprintf("Title: %s\n", p.Title))
 	sb.WriteString(fmt.Sprintf("Description: %s\n", p.Description))
 
-	formattedTime := p.Time.Format(time.UnixDate)
+	formattedTime := time.Unix(int64(p.Time), 0).Format(time.UnixDate)
 	sb.WriteString(fmt.Sprintf("Time: %s\n", formattedTime))
 	sb.WriteString("%-----------------------------%\n")
 	sb.WriteString(p.Contents)
 	return sb.String()
+}
+
+func (p *Post) Meta() (*util.Meta, error) {
+	var data string
+	if bytes, err := json.Marshal(&p); err != nil {
+		return nil, err
+	} else {
+		data = string(bytes)
+	}
+	return &util.Meta{
+		Title:       p.Title,
+		Description: p.Description,
+		JSONData:    template.HTML(data),
+	}, nil
 }
