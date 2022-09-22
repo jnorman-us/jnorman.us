@@ -2,29 +2,14 @@ import {Grid} from "@mui/material";
 import React, {useContext, useEffect, useState} from 'react';
 
 import BlogListing from "./listing";
-import FirebaseContext from "../firebase/context";
 
 export default function BlogListPage() {
-    const { firebaseReady, getAllPosts } = useContext(FirebaseContext);
-
     const [ posts, setPosts ] = useState(null);
 
     useEffect(() => {
-        document.title = "Blog - jnorman.us";
+        const posts = JSON.parse(document.getElementById("json-data").innerText);
+        setPosts(posts)
     }, []);
-
-    useEffect(() => {
-        if(firebaseReady) {
-            let cancel = false;
-            getAllPosts().then((results) => {
-                setTimeout(() => {
-                    if(cancel) return;
-                    setPosts(results);
-                }, 200);
-            });
-            return () => cancel = true;
-        }
-    }, [ firebaseReady ]);
 
     return (
         <Grid container spacing={ 5 }>{ posts == null &&
@@ -34,9 +19,9 @@ export default function BlogListPage() {
                 </Grid>
             )) } </>
         } { posts != null && !posts.empty &&
-            <> { posts.docs.map((post) => (
+            <> { posts.map((post) => (
                 <Grid item xs={ 12 } key={ post.id }>
-                    <BlogListing id={ post.id } post={post.data()}  />
+                    <BlogListing id={ post.id } post={post}  />
                 </Grid>
             )) } </>
         } </Grid>

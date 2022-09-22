@@ -10,10 +10,6 @@
         <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
-        <meta
-            name="description"
-            content="jnorman.us - Joseph Norman's Blog."
-        />
         <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
@@ -35,7 +31,10 @@
             work correctly both with client-side routing and a non-root public URL.
             Learn how to configure a non-root public URL by running `npm run build`.
         -->
-        <title>Joseph Norman's Blog</title>
+        <title>{{ .Title }}</title>
+        <meta property="og:title" content="{{ .Title }}" />
+        <meta property="og:description" content="{{ .Description }}" />
+        <script id="json-data" type="text/json">{{ .JSONData }}</script>
     </head>
     <body>
         <!-- Google Tag Manager (noscript) -->
