@@ -1,7 +1,6 @@
 Meta Tags for Social Media and SEO
 How I integrated my personal blog with Open Graph and made embedded links prettier in Discord.
 1663861456
-
 Having a personal website is pretty cool. It's a great one stop shop for all of my thoughts and ideas, and I've carved a nice, cozy corner on the internet just for me. I have blog posts with titles, timestamps, and brief summaries nicely displayed on my site, but it's really hard to get people to navigate to them when my links look like:
 
 >https://jnorman.us/blog/dbd57771-c428-4e3c-b4f6-117a2dd849a4
