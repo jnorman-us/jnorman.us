@@ -22,8 +22,9 @@ func main() {
 
 	r := mux.NewRouter()
 	r.PathPrefix("/blog/{name}").HandlerFunc(postsManager.ServeBlogPost)
-	r.PathPrefix("/blog").HandlerFunc(postsManager.ServeBlogList)
-	r.PathPrefix("/about").HandlerFunc(handleAbout)
+	r.Path("/blog").HandlerFunc(postsManager.ServeBlogList)
+	r.Path("/about").HandlerFunc(handleAbout)
+	r.Path("/").HandlerFunc(postsManager.ServeBlogList)
 
 	r.PathPrefix("/").HandlerFunc(handleFrontend)
 

@@ -14,8 +14,6 @@ import {
     Typography
 } from "@mui/material";
 
-import profilePicture from '../assets/default-profile.png';
-
 import '../styles/menu.css';
 
 export default function MenuBar() {
@@ -30,7 +28,7 @@ export default function MenuBar() {
         <Grid container spacing={ 3 }>
             <Grid item xs={ 12 }>
                 <a href="/">
-                    <Avatar src={ profilePicture } sx={{
+                    <Avatar src="/default-profile.png"  sx={{
                         width: '85px',
                         height: '85px',
                     }}/>
