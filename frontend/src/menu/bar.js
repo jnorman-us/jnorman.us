@@ -27,23 +27,23 @@ export default function MenuBar() {
     return (
         <Grid container spacing={ 3 }>
             <Grid item xs={ 12 }>
-                <a href="/">
+                <Link to="/">
                     <Avatar src="/default-profile.png"  sx={{
                         width: '85px',
                         height: '85px',
                     }}/>
-                </a>
+                </Link>
             </Grid>
             <Grid item xs={ 12 }>
                 <Grid container spacing={ 0 }>
                     <Grid item xs={ 10 }>
-                        <a href="/" className="menu-link">
+                        <Link to="/" className="menu-link">
                             <Typography variant="h5" sx={{
                                 fontWeight: '800'
                             }}>
                                 Joseph Norman
                             </Typography>
-                        </a>
+                        </Link>
                     </Grid>
                     <Grid item sx={{
                         alignSelf: 'center',
@@ -68,21 +68,21 @@ export default function MenuBar() {
             </Grid>
             <Grid item xs={ 12 }>
                 <MenuList>
-                    <a href="/blog" className={ `menu-link ${ selected.blog ? 'menu-link-selected' : '' }` }>
+                    <Link to="/blog" className={ `menu-link ${ selected.blog ? 'menu-link-selected' : '' }` }>
                         <MenuItem>
                             <ListItemText>
                                     Blog
                             </ListItemText>
                         </MenuItem>
-                    </a>
-                    <a href="/about" className={ `menu-link ${ selected.about ? 'menu-link-selected' : '' }` }>
+                    </Link>
+                    <Link to="/about" className={ `menu-link ${ selected.about ? 'menu-link-selected' : '' }` }>
                         <MenuItem>
                             <ListItemText>
                                     About
                             </ListItemText>
                         </MenuItem>
-                    </a>
-                    <a href="/Resume.pdf" target="_blank" className="menu-link">
+                    </Link>
+                    <Link to="/Resume.pdf" target="_blank" className="menu-link">
                         <MenuItem>
                             <ListItemText>
                                     Resume
@@ -91,7 +91,7 @@ export default function MenuBar() {
                                 <OpenInNew />
                             </ListItemIcon>
                         </MenuItem>
-                    </a>
+                    </Link>
                 </MenuList>
             </Grid>
             <Grid item xs={ 12 } sx={{

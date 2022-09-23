@@ -2,26 +2,16 @@ package posts
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
 	"html/template"
 	"jnorman.us/util"
 	"log"
 	"net/http"
-	"sort"
 )
 
 func (m *Manager) ServeBlogList(w http.ResponseWriter, r *http.Request) {
-	url := r.URL.RequestURI()
-	log.Printf("Received Request for jnorman.us%s\n", url)
-
-	var posts []Post
-	for _, p := range m.posts {
-		post := *p
-		posts = append(posts, post)
-	}
-	sort.Slice(posts, func(i, j int) bool {
-		return posts[i].Time > posts[j].Time
-	})
+	posts := m.getPosts()
 
 	var data string
 	if bytes, err := json.Marshal(posts); err != nil {
@@ -51,9 +41,6 @@ func (m *Manager) ServeBlogList(w http.ResponseWriter, r *http.Request) {
 }
 
 func (m *Manager) ServeBlogPost(w http.ResponseWriter, r *http.Request) {
-	url := r.URL.RequestURI()
-	log.Printf("Received Request for jnorman.us%s\n", url)
-
 	params := mux.Vars(r)
 	name := params["name"]
 	post, ok := m.posts[name]
@@ -78,5 +65,32 @@ func (m *Manager) ServeBlogPost(w http.ResponseWriter, r *http.Request) {
 	if err := index.Execute(w, meta); err != nil {
 		log.Printf("Error rendering post %v\n", err)
 		http.Error(w, "Error rendering post", http.StatusInternalServerError)
+	}
+}
+
+func (m *Manager) GetBlogPost(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("REST")
+	params := mux.Vars(r)
+	name := params["name"]
+	post, ok := m.posts[name]
+
+	if !ok {
+		http.Error(w, "Blog post not found", http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(post); err != nil {
+		http.Error(w, "Error encoding post", http.StatusInternalServerError)
+	}
+}
+
+func (m *Manager) GetBlogPosts(w http.ResponseWriter, r *http.Request) {
+	posts := m.getPosts()
+	fmt.Println("TEST")
+
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(posts); err != nil {
+		http.Error(w, "Error encoding posts", http.StatusInternalServerError)
 	}
 }

@@ -5,14 +5,22 @@ import {useEffect, useState, useContext} from "react";
 import {Box, Grid, Skeleton, Typography} from "@mui/material";
 
 import '../styles/font.css';
+import {getPost} from "./get";
+import {Helmet} from "react-helmet";
 
 export default function BlogReadPage() {
+    const { id } = useParams();
     const [ post, setPost ] = useState(null);
 
     useEffect(() => {
-        const post = JSON.parse(document.getElementById("json-data").innerText);
-        setPost(post);
-    }, []);
+        let cancelled = false;
+        if(id != null) {
+            getPost(id).then((post) => {
+                if(!cancelled) setPost(post);
+            });
+        }
+        return () => { cancelled = true; };
+    }, [ id ]);
 
     const ready = post != null;
 
@@ -58,21 +66,26 @@ export default function BlogReadPage() {
     );
 
     return (
-        <Grid container spacing={ 1 }>
-            <Grid item xs={ 12 }>
-                { title }
+        <>
+            <Helmet>
+                <title>{ `${ ready ? post.title : "Blog" } - jnorman.us` }</title>
+            </Helmet>
+            <Grid container spacing={ 1 }>
+                <Grid item xs={ 12 }>
+                    { title }
+                </Grid>
+                <Grid item xs={ 12 }>
+                    { subtitle }
+                </Grid>
+                <Grid item xs={ 12 }>
+                    { time_published }
+                </Grid>
+                <Grid item xs={ 12 } sx={{
+                    marginTop: 2,
+                }}>
+                    { contents }
+                </Grid>
             </Grid>
-            <Grid item xs={ 12 }>
-                { subtitle }
-            </Grid>
-            <Grid item xs={ 12 }>
-                { time_published }
-            </Grid>
-            <Grid item xs={ 12 } sx={{
-                marginTop: 2,
-            }}>
-                { contents }
-            </Grid>
-        </Grid>
+        </>
     );
 }
