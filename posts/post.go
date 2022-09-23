@@ -70,16 +70,22 @@ func (p *Post) String() string {
 	return sb.String()
 }
 
-func (p *Post) Meta() (*util.Meta, error) {
-	var data string
+func (p *Post) JSON() (string, error) {
 	if bytes, err := json.Marshal(&p); err != nil {
+		return "", err
+	} else {
+		return string(bytes), nil
+	}
+}
+
+func (p *Post) Meta() (*util.Meta, error) {
+	if data, err := p.JSON(); err != nil {
 		return nil, err
 	} else {
-		data = string(bytes)
+		return &util.Meta{
+			Title:       p.Title,
+			Description: p.Description,
+			JSONData:    template.HTML(data),
+		}, nil
 	}
-	return &util.Meta{
-		Title:       p.Title,
-		Description: p.Description,
-		JSONData:    template.HTML(data),
-	}, nil
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sort"
 	"strings"
 	"time"
 )
@@ -57,4 +58,16 @@ func loadDirectory(folderPath string) (map[string]*Post, error) {
 	}
 	log.Printf("Successfully loaded %d posts\n", len(posts))
 	return posts, nil
+}
+
+func (m *Manager) getPosts() []Post {
+	var posts []Post
+	for _, p := range m.posts {
+		post := *p
+		posts = append(posts, post)
+	}
+	sort.Slice(posts, func(i, j int) bool {
+		return posts[i].Time > posts[j].Time
+	})
+	return posts
 }

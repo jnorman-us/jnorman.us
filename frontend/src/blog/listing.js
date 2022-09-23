@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, Grid, Skeleton, Typography} from "@mui/material";
 
 import '../styles/link.css';
+import {Link} from "react-router-dom";
 
 export default function BlogListing({
     id,
@@ -15,9 +16,9 @@ export default function BlogListing({
             fontSize: '28px',
             fontWeight: '500',
         }}>
-            <a href={ url } className="out-link">
+            <Link to={ url } className="out-link">
                 { post.title }
-            </a>
+            </Link>
         </Typography> :
         <Skeleton variant="text" />
     );
@@ -40,11 +41,11 @@ export default function BlogListing({
     );
 
     const button = (!empty ?
-        <a href={ url } className="out-link out-link-blue">
+        <Link to={ url } className="out-link out-link-blue">
             <Typography>
                 Read
             </Typography>
-        </a> :
+        </Link> :
         <Skeleton variant="text" width="100px" />
     );
 

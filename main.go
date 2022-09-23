@@ -2,7 +2,9 @@ package main
 
 import (
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 	"html/template"
+	"jnorman.us/hits"
 	"jnorman.us/posts"
 	"jnorman.us/util"
 	"log"
@@ -26,11 +28,17 @@ func main() {
 	r.Path("/about").HandlerFunc(handleAbout)
 	r.Path("/").HandlerFunc(postsManager.ServeBlogList)
 
+	api := mux.NewRouter()
+	api.HandleFunc("/api", postsManager.GetBlogPosts)
+	api.Path("/api/blog").HandlerFunc(postsManager.GetBlogPosts)
+	api.Path("/api/blog/{name}").HandlerFunc(postsManager.GetBlogPost)
+	r.PathPrefix("/api").Handler(cors.Default().Handler(api))
+
 	r.PathPrefix("/").HandlerFunc(handleFrontend)
+	loggerWrapper := hits.NewLogger(r)
 
 	log.Printf("Running Server on port: %s\n", port)
-	err := http.ListenAndServe(":"+port, r)
-	if err != nil {
+	if err := http.ListenAndServe(":"+port, loggerWrapper); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -56,8 +64,6 @@ func handleAbout(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleFrontend(w http.ResponseWriter, r *http.Request) {
-	url := r.URL.RequestURI()
-	log.Printf("Received Request for jnorman.us%s\n", url)
 	server := http.FileServer(http.Dir("./frontend/build"))
 	server.ServeHTTP(w, r)
 }

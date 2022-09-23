@@ -15,11 +15,9 @@ export default function App() {
 
     useEffect(() => {
         if(windowWidth >= 1000) {
-            setWidth(930);
-        } else if(windowWidth >= 700) {
-            setWidth(windowWidth - 70);
+            setWidth(windowWidth * .80);
         } else {
-            setWidth(windowWidth - 40);
+            setWidth(windowWidth * .90);
         }
         if(windowWidth <= 500) {
             setPadding(false);
