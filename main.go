@@ -29,7 +29,6 @@ func main() {
 	r.Path("/").HandlerFunc(postsManager.ServeBlogList)
 
 	api := mux.NewRouter()
-	api.HandleFunc("/api", postsManager.GetBlogPosts)
 	api.Path("/api/blog").HandlerFunc(postsManager.GetBlogPosts)
 	api.Path("/api/blog/{name}").HandlerFunc(postsManager.GetBlogPost)
 	r.PathPrefix("/api").Handler(cors.Default().Handler(api))
