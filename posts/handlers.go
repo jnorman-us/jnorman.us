@@ -3,11 +3,12 @@ package posts
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
 	"html/template"
-	"jnorman.us/util"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
+	"jnorman.us/util"
 )
 
 func (m *Manager) ServeBlogList(w http.ResponseWriter, r *http.Request) {
@@ -87,7 +88,6 @@ func (m *Manager) GetBlogPost(w http.ResponseWriter, r *http.Request) {
 
 func (m *Manager) GetBlogPosts(w http.ResponseWriter, r *http.Request) {
 	posts := m.getPosts()
-	fmt.Println("TEST")
 
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(posts); err != nil {
